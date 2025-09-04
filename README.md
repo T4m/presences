@@ -25,7 +25,3 @@ Saisie de présences et export au format BDNS (Jeunesse+Sport suisse)
 * On desktop, open Chrome, load `chrome://inspect/#devices`
 
 This way, you can test your app on phone, while seeing the debugger on desktop.
-
-# TODO
-* FILL DATA
-* PUBLISH ON GITHUB PAGES
