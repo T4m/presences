@@ -6,7 +6,7 @@ import './App.css'
 
 function App() {
   return (
-      <BrowserRouter>
+      <BrowserRouter basename="/presences">
           <Routes>
               <Route path="/" element={<Presences />} />
               <Route path="/edit/:eleveId" element={<EditEleve />} />
