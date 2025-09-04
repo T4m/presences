@@ -1,0 +1,168 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+.center-wrapper {
+  display: flex;
+  justify-content: center;
+}
+.mt-0 {
+  margin-top: 0;
+}
+.mb-0 {
+  margin-bottom: 0;
+}
+.nav-link {
+  margin: 0;
+  position: relative;
+  top: -20px;
+  right: 0;
+  font-size: 0.8em;
+  color: #888;
+  text-decoration: none;
+}
+.kyu-list {
+  padding: 0;
+  list-style: none;
+}
+.kyu-list li {
+  list-style: none;
+  border-bottom: 1px solid #ccc;
+}
+.kyu-list li.kyu-1 {
+  background-image: linear-gradient(to right, #fff, #ffff00);
+}
+.kyu-list li.kyu-2 {
+  background-color: #ffff00;
+}
+.kyu-list li.kyu-3 {
+  background-image: linear-gradient(to right, #ffff00, #ff6600);
+}
+.kyu-list li.kyu-4 {
+  background-color: #ff6600;
+}
+.kyu-list li.kyu-5 {
+  background-image: linear-gradient(to right, #ff6600, #00B400);
+}
+.kyu-list li.kyu-6 {
+  background-color: #00B400;
+}
+.kyu-list li.kyu-7 {
+  background-image: linear-gradient(to right, #00B400, #0000C8);
+}
+.kyu-list li.kyu-8 {
+  background-color: #0000C8;
+}
+.state-list {
+  padding: 0;
+}
+.state-list ul {
+  list-style: none;
+  padding: 0;
+}
+.state-list li {
+  list-style: none;
+  margin: 0;
+  border-bottom: 1px solid #ccc;
+  &:first-child {
+    border-top: 1px solid #ccc;
+  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.2rem 1rem;
+  color: #000;
+}
+.state-list li button {
+  border: none;
+  background: transparent;
+  color: #000;
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: 0;
+  margin: 0 0 0 1rem;
+}
+
+/* Container styling */
+.autocomplete {
+  position: relative;
+}
+
+/* Input field */
+.autocomplete input {
+  width: 100%;
+  padding: 0.5em;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Dropdown menu */
+.autocomplete ul {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 150px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  z-index: 1000;
+  border-radius: 0 0 4px 4px;
+}
+
+/* Dropdown items */
+.autocomplete li {
+  padding: 0.5em;
+  cursor: pointer;
+}
+
+.btn-small {
+  padding: 5px 10px;
+  font-size: 0.8em;
+  margin: 1em 0 1em 1em;
+}
+.small {
+  font-size: 0.8em;
+}
