@@ -87,7 +87,7 @@ const EditEleve: React.FC = () => {
                     <p>Kyu</p>
                     <ul className="kyu-list small">
                         {kyus.map((kyu, idx) => (
-                            <li key={idx} className={`kyu-${idx}`}>
+                            <li key={idx} className={`kyu-${kyu.id}`}>
                                 {KyuEntries[kyu.id]} - {String(kyu.date)}
                             </li>
                         ))}

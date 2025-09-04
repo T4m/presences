@@ -1,14 +1,14 @@
 export const KyuEntries = [
-  "Blanche",
-  "Demi-jaune",
-  "Jaune",
-  "Demi-orange",
-  "Orange",
-  "Demi-verte",
-  "Verte",
-  "Demi-bleue",
-  "Bleue",
-  "Marron",
+  "Blanche",      // 0
+  "Demi-jaune",   // 1
+  "Jaune",        // 2
+  "Demi-orange",  // 3
+  "Orange",       // 4
+  "Demi-verte",   // 5
+  "Verte",        // 6
+  "Demi-bleue",   // 7
+  "Bleue",        // 8
+  "Marron",       // 9
 ]
 
 export type KyuName = typeof KyuEntries[number];

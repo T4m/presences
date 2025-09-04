@@ -18,13 +18,24 @@ const AllList: React.FC<Props> = ({ elements, isCoachMode })=> {
                     }}>
                         <span>{fullName(item)}</span>
                         {!isCoachMode && (
-                            <button
-                                aria-label={`Supprimer ${fullName(item)}`}
-                                type="button"
-                                onClick={() => navigate(`/edit/${item.id}`)}
-                            >
-                                &#9998;
-                            </button>
+                            <>
+                                <div>
+                                    {(!("number" in item) || !item.number) && (
+                                        <span
+                                            className="warning"
+                                            aria-label="Warning: missing number"
+                                            title="N°PERSONNEL non défini"
+                                        >&#9888;</span>
+                                    )}
+                                    <button
+                                        aria-label={`Éditer ${fullName(item)}`}
+                                        type="button"
+                                        onClick={() => navigate(`/edit/${item.id}`)}
+                                    >
+                                        &#9998;
+                                    </button>
+                                </div>
+                            </>
                         )}
                     </li>
                 ))}

@@ -110,14 +110,23 @@
   padding: 0.2rem 1rem;
   color: #000;
 }
+.state-list li span {
+  margin: 0 1rem 0 0;
+}
 .state-list li button {
   border: none;
   background: transparent;
   color: #000;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   line-height: 1;
   padding: 0;
-  margin: 0 0 0 1rem;
+  margin: 0 0 0 0.5rem;
+}
+
+.state-list li .warning {
+  color: #be2800;
+  margin: 0;
+  font-weight: bold;
 }
 
 /* Container styling */
