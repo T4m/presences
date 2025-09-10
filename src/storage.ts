@@ -44,20 +44,32 @@ export async function getAllCoachs(): Promise<Coach[]> {
     return coachs;
 }
 
-export async function getElevesMap(): Promise<Record<string, any>> {
-    const eleves: Record<string, any> = {};
-    await storeEleves.iterate((value: Record<string, any>) => {
-        eleves[value.id] = value;
+async function doGetItemMap(store: LocalForage) {
+    const items: Record<string, any> = {};
+    await store.iterate((value: Record<string, any>) => {
+        items[value.id] = value;
     });
-    return eleves;
+    return items;
 }
 
-export async function getAllPresences(): Promise<Record<string, any>> {
+export async function getElevesMap(): Promise<Record<string, any>> {
+    return doGetItemMap(storeEleves);
+}
+
+async function doGetAllPresences(store: LocalForage) {
     const presences: Record<string, any> = {};
-    await storePresences.iterate((value: Record<string, any>, key: string) => {
+    await store.iterate((value: Record<string, any>, key: string) => {
         presences[key] = value;
     });
     return presences;
+}
+
+export async function getAllPresences(): Promise<Record<string, any>> {
+    return doGetAllPresences(storePresences);
+}
+
+export async function getAllPresencesCoachs(): Promise<Record<string, any>> {
+    return doGetAllPresences(storePresencesCoachs);
 }
 
 // Fonction pour créer un nouvel élève

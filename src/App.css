@@ -175,3 +175,9 @@
 .small {
   font-size: 0.8em;
 }
+.status-info {
+  font-size: 0.8em;
+  margin: 0.5em 0 1em 0;
+  padding: 0.5em;
+  border-bottom: 1px solid #ccc;
+}
