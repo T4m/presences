@@ -131,3 +131,15 @@ export const toCSVBlob: (csv: string) => Blob = (csv) => {
 };
 
 export const todayStr: () => string = () => new Date().toISOString().split("T")[0];
+
+export async function fetchManifestShortName() {
+    try {
+        const response = await fetch('/presences/manifest.webmanifest');
+        if (!response.ok) throw new Error('Manifest inaccessible');
+        const manifest = await response.json();
+        return manifest.short_name || "";
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (e) {
+        return "Erreur de lecture du manifeste";
+    }
+}
