@@ -19,7 +19,7 @@ export default defineConfig({
       },
       manifest: {
         name: 'Présences Judo',
-        short_name: 'Présences 1.0.2',
+        short_name: 'Présences 1.0.3',
         description: 'App prise de présence cours de judo',
         theme_color: '#2866cc',
         background_color: '#ffffff',
