@@ -116,7 +116,6 @@ export const handleDownload = (blob: Blob, filename: string) => {
     const a = document.createElement("a");
     a.href = url;
     a.download = filename;
-
     // Certains navigateurs mobiles ont du mal : fallbacks classiques
     document.body.appendChild(a);
     a.click();
@@ -124,3 +123,11 @@ export const handleDownload = (blob: Blob, filename: string) => {
     // /!\ Delay for revoking the URL after download
     setTimeout(() => URL.revokeObjectURL(url), 1500);
 };
+
+export const toCSVBlob: (csv: string) => Blob = (csv) => {
+    const utf8BOM = "\uFEFF"; // caractère BOM UTF-8
+    const csvContent = utf8BOM + csv;
+    return new Blob([csvContent], {type: "text/csv;charset=utf-8;"});
+};
+
+export const todayStr: () => string = () => new Date().toISOString().split("T")[0];

@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { backupAll, restoreAll } from "./storage.ts";
 import { useState } from 'react';
-import {handleDownload, makeCsvExport, makeCsvExportCoachs, makeCsvExportIncompleteData} from "./utils.ts";
+import {
+    handleDownload,
+    makeCsvExport,
+    makeCsvExportCoachs,
+    makeCsvExportIncompleteData,
+    toCSVBlob,
+    todayStr
+} from "./utils.ts";
 import {Link} from "react-router-dom";
 
 export default function Export() {
@@ -17,18 +24,30 @@ export default function Export() {
         }
     };
 
-    const handleBackup = async () => {
-        setStatus("Création du backup...");
+    async function doExport(
+        exportFunc: () => Promise<Blob>,
+        filename: string,
+        initialStatus: string
+    ) {
         try {
-            const json = await backupAll();
-            const today = new Date().toISOString().split("T")[0];
-            const filename = `backup-presences-${today}.json`;
-            const blob = new Blob([JSON.stringify(json, null, 2)], {type: "application/json"});
-            handleDownload(blob, filename);
-            setStatus("Backup réussi.");
+            setStatus(initialStatus);
+            handleDownload(await exportFunc(), filename);
+            setStatus("Export réussi.");
         } catch (e: any) {
             setStatus("Erreur : " + e.message);
         }
+    }
+
+    const handleBackup = async () => {
+        await doExport(
+            async () =>
+                new Blob(
+                    [JSON.stringify(await backupAll(), null, 2)],
+                    { type: "application/json;charset=utf-8" }
+                ),
+            `backup-presences-${todayStr()}.json`,
+            "Exporting JSON backup..."
+        );
     };
 
     const handleRestore = async () => {
@@ -43,45 +62,27 @@ export default function Export() {
     }
 
     const handleExport = async () => {
-        setStatus("Création de l'export...");
-        try {
-            const csv = await makeCsvExport();
-            const today = new Date().toISOString().split("T")[0];
-            const filename = `export-presences-${today}.csv`;
-            const blob = new Blob([csv], {type: "text/csv"});
-            handleDownload(blob, filename);
-            setStatus("Export réussi.");
-        } catch (e: any) {
-            setStatus("Erreur : " + e.message);
-        }
-    }
+        await doExport(
+            async () => toCSVBlob(await makeCsvExport()),
+            `export-presences-${todayStr()}.csv`,
+            "Exporting presences..."
+        );
+    };
 
     const handleExportInclomplete = async () => {
-        setStatus("Création de l'export...");
-        try {
-            const csv = await makeCsvExportIncompleteData();
-            const today = new Date().toISOString().split("T")[0];
-            const filename = `export-incomplete-data-${today}.csv`;
-            const blob = new Blob([csv], {type: "text/csv"});
-            handleDownload(blob, filename);
-            setStatus("Export réussi.");
-        } catch (e: any) {
-            setStatus("Erreur : " + e.message);
-        }
+        await doExport(
+            async () => toCSVBlob(await makeCsvExportIncompleteData()),
+            `export-incomplete-data-${todayStr()}.csv`,
+            "Exporting incomplete data..."
+        );
     }
 
     const handleExportCoachs = async () => {
-        setStatus("Export coachs...");
-        try {
-            const csv = await makeCsvExportCoachs();
-            const today = new Date().toISOString().split("T")[0];
-            const filename = `export-coachs-${today}.csv`;
-            const blob = new Blob([csv], {type: "text/csv"});
-            handleDownload(blob, filename);
-            setStatus("Export réussi.");
-        } catch (e: any) {
-            setStatus("Erreur : " + e.message);
-        }
+        await doExport(
+            async () => toCSVBlob(await makeCsvExportCoachs()),
+            `export-coachs-${todayStr()}.csv`,
+            "Exporting coachs..."
+        )
     }
 
     return (
