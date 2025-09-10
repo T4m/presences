@@ -24,7 +24,8 @@ export default defineConfig({
         theme_color: '#2866cc',
         background_color: '#ffffff',
         display: 'standalone',
-        start_url: '/',
+        start_url: '/presences/',
+        scope: '/presences/',
         icons: [
           {
             src: 'pwa-96x96.png',
