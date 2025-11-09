@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {useParams, useNavigate, Link} from 'react-router-dom';
-import { storeEleves } from './storage';
+import {getPresencesByEleve, removeEleve, storeEleves} from './storage';
 import {type Eleve, type Kyu, KyuEntries} from "./types.ts";
 import ChooseCourse from "./components/ChooseCourse.tsx";
 
@@ -41,6 +41,20 @@ const EditEleve: React.FC = () => {
         await storeEleves.setItem(eleve.id, updatedEleve);
         navigate('/');  // Go back to main page or wherever
     };
+
+    const handleDelete = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!eleve) return;
+        let isConfirmed = true;
+        const presences = await getPresencesByEleve(eleve.id);
+        if (presences.length > 0) {
+            isConfirmed = confirm(`L'élève a été présent ${presences.length} fois. Voulez-vous vraiment le supprimer ?`)
+        }
+        if (isConfirmed) {
+            await removeEleve(eleve.id, presences);
+            navigate('/');
+        }
+    }
 
     if (!eleve) return <div>Loading...</div>;
 
@@ -95,6 +109,7 @@ const EditEleve: React.FC = () => {
 
                     <button
                         className="btn-small secondary"
+                        style={{ margin: '1em 0'}}
                         onClick={() => setAdding(true)}
                     >Ajouter</button>
 
@@ -150,8 +165,12 @@ const EditEleve: React.FC = () => {
                     )}
 
 
-                    <button type="submit" style={{ marginTop: '1rem' }}>
+                    <button type="submit" style={{ marginTop: '1rem', padding: '0.5em 1em' }}>
                         Enregistrer
+                    </button>
+
+                    <button type="button" className="secondary" style={{ marginTop: '1rem', padding: '0.5em 1em' }} onClick={handleDelete}>
+                        Supprimer
                     </button>
                 </form>
             </div>

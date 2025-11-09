@@ -15,6 +15,14 @@ export const fullName = (item: Eleve | Coach) => {
     return `${item.prenom} ${"nom" in item ? String(item.nom) : ""}`;
 }
 
+export const normalizeString = (str: string) => {
+    return str
+        .normalize("NFD")              // Décompose les caractères accentués
+        .replace(/[\u0300-\u036f]/g, "") // Supprime les diacritiques
+        .toLowerCase()
+        .trim();
+}
+
 export async function makeCsvExportIncompleteData(): Promise<string> {
     const eleves = await getAllEleves();
     const columns = [
@@ -53,19 +61,19 @@ export async function makeCsvExport(): Promise<string> {
         // Extraire la date et le nom du cours à partir de la clé
         const [date, coursId] = key.split("_", 2);
         const hour = CoursEntries[Number(coursId)].split(" ")[1];
+        const dateFormatted = date.split("-").reverse().join(".");
 
         for (const eleveId of ids) {
             const eleve = eleves[Number(eleveId)];
-            const number = eleve?.number || `${eleve?.prenom || ""} ${eleve?.nom || ""}`.trim();
-
+            if (!eleve?.number) continue;
             lignes.push([
-                number,
+                eleve?.number,
                 "Participant/e",
-                date,
+                dateFormatted,
                 "Entraînement",
                 hour,
-                "",
-                ""
+                "60:00",
+                "Lausanne"
             ].join(";"));
         }
     }

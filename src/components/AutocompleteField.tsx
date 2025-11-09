@@ -1,7 +1,7 @@
 import { useCombobox } from 'downshift'
 import type {Eleve, Coach} from "../types.ts";
-import {useState} from "react";
-import {compareElements} from "../utils.ts";
+import { useRef, useState } from "react";
+import { compareElements, normalizeString } from "../utils.ts";
 
 interface Props {
     elements: Eleve[] | Coach[];
@@ -12,13 +12,23 @@ interface Props {
 
 const AutocompleteField: React.FC<Props> = ({ elements, onCreateElement, onCreatePresence, presences })=> {
     const [inputValue, setInputValue] = useState('');
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    function handleFocus() {
+        inputRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "nearest"
+        });
+    }
 
     const filteredEleves = elements.filter(item => {
         if (item && item.prenom) {
-            return (
-                (! presences.some(p => p.id === item.id)) &&
-                item.prenom.toLowerCase().startsWith(inputValue.toLowerCase())
-            )
+            if (! presences.some(p => p.id === item.id)) {
+                const normalizedItem = normalizeString(item.prenom);
+                const normalizedInput = normalizeString(inputValue);
+                return normalizedItem.startsWith(normalizedInput);
+            }
         }
         return false;
     }).sort(compareElements);
@@ -40,10 +50,12 @@ const AutocompleteField: React.FC<Props> = ({ elements, onCreateElement, onCreat
                 let eleve;
                 if ('id' in selectedItem) {
                     eleve = selectedItem
-                } else {
+                } else if (confirm(`Confirmer la création de ${selectedItem["prenom"]} ${selectedItem["nom"]} ?`)) {
                     eleve = await onCreateElement(selectedItem["prenom"], selectedItem["nom"]);
                 }
-                await onCreatePresence(eleve);
+                if (eleve) {
+                    await onCreatePresence(eleve);
+                }
                 setInputValue('');
             }
         },
@@ -56,9 +68,11 @@ const AutocompleteField: React.FC<Props> = ({ elements, onCreateElement, onCreat
     return (
         <div className={"autocomplete"}>
             <input
+                ref={inputRef}
                 placeholder="prenom nom"
                 {...getInputProps()}
                 style={{ width: '100%', padding: '0.5rem', fontSize: '1rem', margin: '0' }}
+                onFocus={handleFocus}
             />
             <ul {...getMenuProps()} style={{ listStyle: 'none', margin: 0, padding: 0 }}>
                 {isOpen &&

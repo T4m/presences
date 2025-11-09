@@ -72,6 +72,26 @@ export async function getAllPresencesCoachs(): Promise<Record<string, any>> {
     return doGetAllPresences(storePresencesCoachs);
 }
 
+export async function getPresencesByEleve(id: string): Promise<string[]> {
+    const presenceKeys: string[] = [];
+    await storePresences.iterate((value: Record<string, any>, key: string) => {
+        if (value.includes(id)) {
+            presenceKeys.push(key);
+        }
+    });
+    return presenceKeys;
+}
+
+export async function removeEleve(id: string, presenceKeys: string[] | undefined): Promise<void> {
+    const keys = (typeof presenceKeys === "undefined") ? await getPresencesByEleve(id) : presenceKeys;
+    for (const key of keys) {
+        const date = key.split('_')[0];
+        const cours = parseInt(key.split('_')[1]);
+        await removePresence(id, date, cours);
+    }
+    await storeEleves.removeItem(id);
+}
+
 // Fonction pour créer un nouvel élève
 export async function createEleve(prenom: string, nom?: string): Promise<Eleve> {
     const newId = (await storeUtils.getItem<number>('lastEleveId') || 0) + 1;
