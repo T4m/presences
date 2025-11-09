@@ -11,6 +11,13 @@ Saisie de présences et export au format BDNS (Jeunesse+Sport suisse)
 2. Install node 23 or `nvm use` with nvm
 3. Install node modules with `npm install`
 
+## Build & Deploy
+```
+nvm use
+npm run build
+npm run deploy
+```
+
 ## Test & Debug
 ### In a browser
 * Run `npm run dev --host` in the terminal
