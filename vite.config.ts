@@ -12,14 +12,15 @@ export default defineConfig({
       includeAssets: [
         'favicon.ico',
         'apple-touch-icon.png',
-        'favicon.svg'
+        'favicon.svg',
+        'flexboxgrid.min.css'
       ],
       devOptions: {
         enabled: true
       },
       manifest: {
         name: 'Présences Judo',
-        short_name: 'Présences 1.0.7',
+        short_name: 'Présences 1.0.8',
         description: 'App prise de présence cours de judo',
         theme_color: '#2866cc',
         background_color: '#ffffff',

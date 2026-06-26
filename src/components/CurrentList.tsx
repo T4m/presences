@@ -8,20 +8,22 @@ interface Props {
 
 const CurrentList: React.FC<Props> = ({ elements, onRemovePresence })=> {
     return (
-        <div className={"state-list"}>
+        <div className={"state-list state-list--current"}>
             <ul>
                 {elements.sort(compareElements).map((item, index) => (
                     <li key={item.id} style={{
                         backgroundColor: index % 2 === 0 ? '#ebfff1' : '#b6ddbe',
-                    }}>
-                        <span>{fullName(item)}</span>
-                        <button
-                            aria-label={`Supprimer ${fullName(item)}`}
-                            type="button"
-                            onClick={() => onRemovePresence(item.id)}
-                        >
-                            &times;
-                        </button>
+                    }} className={"row"}>
+                        <div className={"col-xs-10"}>{fullName(item)}</div>
+                        <div className={"col-xs-2"}>
+                            <button
+                                aria-label={`Supprimer ${fullName(item)}`}
+                                type="button"
+                                onClick={() => onRemovePresence(item.id)}
+                            >
+                                &times;
+                            </button>
+                        </div>
                     </li>
                 ))}
             </ul>

@@ -1,4 +1,4 @@
-import {type Eleve, type Coach, CoursEntries} from "./types.ts";
+import {type Eleve, type Coach, CoursEntries, KyuEntries} from "./types.ts";
 import {getElevesMap, getAllPresences, getAllPresencesCoachs, getAllCoachs, getAllEleves} from "./storage.ts";
 
 // Compare two Eleve objects by prenom then nom, case-insensitive
@@ -117,6 +117,35 @@ export async function makeCsvExportCoachs(): Promise<string> {
         ...total.map(v => v ? String(v) : "")
     ]);
     return lignes.map(l => l.join(";")).join("\n");
+}
+
+export async function makeCsvExportPreparationKyu(): Promise<string> {
+    const lines = [];
+    const eleves = await getAllEleves();
+    let kyuName, kyuDate;
+    for (const eleve of eleves) {
+        const kyu = (eleve.kyus ?? []).at(-1);
+        if (kyu) {
+            kyuName = KyuEntries[kyu.id];
+            kyuDate = kyu.date;
+        } else {
+            kyuName = KyuEntries[0];
+            kyuDate = ""; // TODO : First presence date
+        }
+
+        // TODO Add lessons qty
+
+        lines.push([
+            eleve.prenom,
+            eleve.nom || "",
+            eleve.kyus?.map(({date}) => date).join(" / "),
+            eleve.qty,
+            eleve.since,
+            kyuName,
+            kyuDate
+        ])
+    }
+    return lines.join("\n");
 }
 
 export const handleDownload = (blob: Blob, filename: string) => {

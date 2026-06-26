@@ -36,7 +36,7 @@ export interface Kyu {
   id: number;
   date: string;
 }
-export interface Eleve {
+export type Eleve = {
   id: string;
   number?: string;
   nom?: string;
@@ -45,3 +45,7 @@ export interface Eleve {
   kyus?: Kyu[];
 }
 
+export type EleveWithQty = Eleve & {
+  qty: number;
+  since: string;
+}

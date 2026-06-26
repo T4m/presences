@@ -1,7 +1,13 @@
 #root {
   max-width: 1280px;
-  margin: 1em auto;
+  margin: 1em;
   text-align: center;
+    width: 100%;
+}
+
+#root .container-fluid {
+    width: 100%;
+    padding: 0;
 }
 
 .logo {
@@ -66,8 +72,13 @@
   list-style: none;
   border-bottom: 1px solid #ccc;
 }
+.kyu-list li.kyu-0 {
+    background-color: #fff;
+    color: #000;
+}
 .kyu-list li.kyu-1 {
   background-image: linear-gradient(to right, #fff, #ffff00);
+  color: #000;
 }
 .kyu-list li.kyu-2 {
   background-color: #ffff00;
@@ -89,6 +100,7 @@
 }
 .kyu-list li.kyu-8 {
   background-color: #0000C8;
+  color: #fff;
 }
 .state-list {
   padding: 0;
@@ -104,14 +116,15 @@
   &:first-child {
     border-top: 1px solid #ccc;
   }
-  display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.2rem 1rem;
+  padding: 0.2rem 0.5rem;
   color: #000;
+  gap: 0;
 }
-.state-list li span {
-  margin: 0 1rem 0 0;
+.state-list li .state-item--name {
+  padding: 0;
+  text-align: left;
 }
 .state-list li button {
   border: none;
@@ -119,14 +132,30 @@
   color: #000;
   font-size: 1.2rem;
   line-height: 1;
+  /*padding: 0 0 0 0.5rem;*/
+  margin: 0;
+  padding:0;
+}
+
+.state-list li .state-item--qty {
+  font-size: 0.8em;
+  text-wrap: nowrap;
+  text-align: center;
   padding: 0;
-  margin: 0 0 0 0.5rem;
 }
 
 .state-list li .warning {
   color: #be2800;
   margin: 0;
   font-weight: bold;
+  padding: 0;
+}
+
+.state-list li .state-item--cours {
+  font-size: 0.8em;
+  text-wrap: nowrap;
+  text-align: center;
+  padding: 0;
 }
 
 /* Container styling */
@@ -188,4 +217,24 @@ footer {
   border-top: 1px solid #888;
   padding: 1em;
   width: 100%;
+}
+.nowrap {
+  text-wrap: nowrap;
+}
+.list-header {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 0;
+}
+.state-list--current {
+  padding: 0;
+}
+.state-list--current li div:first-child {
+  text-align: left;
+  padding: 0;
+}
+.state-list--current li div:last-child {
+  text-align: right;
+  padding: 0;
 }

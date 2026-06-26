@@ -6,6 +6,7 @@ import {
     makeCsvExport,
     makeCsvExportCoachs,
     makeCsvExportIncompleteData,
+    makeCsvExportPreparationKyu,
     toCSVBlob,
     todayStr
 } from "./utils.ts";
@@ -85,6 +86,14 @@ export default function Export() {
         )
     }
 
+    const handlePreparationKyu = async () => {
+        await doExport(
+            async () => toCSVBlob(await makeCsvExportPreparationKyu()),
+            `export-preparation-kyu-${todayStr()}.csv`,
+            "Exporting preparation kyu..."
+        )
+    }
+
     return (
         <main>
             <div className="container-fluid">
@@ -107,6 +116,8 @@ export default function Export() {
                 <button style={{width: "100%", padding: "5px"}} onClick={handleExportInclomplete}>Incomplete data</button>
                 <hr />
                 <button style={{width: "100%", padding: "5px"}} onClick={handleExportCoachs}>Export Coachs</button>
+                <hr />
+                <button style={{width: "100%", padding: "5px"}} onClick={handlePreparationKyu}>Préparation KYU</button>
                 <hr />
             </div>
         </main>

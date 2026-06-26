@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import localforage from 'localforage';
-import type {Coach, Eleve} from "./types.ts";
+import type {Coach, Eleve, EleveWithQty} from "./types.ts";
 
 export const storeEleves = localforage.createInstance({
     name: 'presenceDB',
@@ -28,12 +28,22 @@ export const storePresencesCoachs = localforage.createInstance({
 });
 
 // Fonction pour récupérer tous les élèves
-export async function getAllEleves(): Promise<Eleve[]> {
+export async function getAllEleves(selectedCourse: number|undefined = undefined): Promise<EleveWithQty[]> {
     const eleves: Eleve[] = [];
     await storeEleves.iterate((value: Eleve) => {
-        eleves.push(value);
+        if (typeof selectedCourse === "undefined" || selectedCourse === value.coursId || typeof value.coursId === "undefined") {
+            eleves.push(value);
+        }
     });
-    return eleves;
+    const elevesWithTotal = eleves.map(async (eleve) => {
+        const presences = await getPresencesByEleve(eleve.id);
+        return {
+            ...eleve,
+            qty: presences.length,
+            since: presences[0]
+        }
+    })
+    return await Promise.all(elevesWithTotal);
 }
 
 export async function getAllCoachs(): Promise<Coach[]> {
